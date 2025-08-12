@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ action }} Tugas</h2>
+<form method="POST" class="mt-4">
+    <div class="mb-3">
+        <label for="title" class="form-label">Judul Tugas</label>
+        <input type="text" id="title" name="title" class="form-control" required
+            value="{{ task.title if task else '' }}">
+    </div>
+    <div class="mb-3">
+        <label for="category" class="form-label">Kategori</label>
+        <select id="category" name="category" class="form-select" required>
+            <option value="umum" {% if task and task.category == 'umum' %}selected{% endif %}>Umum</option>
+            <option value="pribadi" {% if task and task.category == 'pribadi' %}selected{% endif %}>Pribadi</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="due_date" class="form-label">Tanggal Batas Waktu</label>
+        <input type="date" id="due_date" name="due_date" class="form-control" required
+            value="{{ task.due_date.strftime('%Y-%m-%d') if task else '' }}">
+    </div>
+    <button type="submit" class="btn btn-primary">{{ action }}</button>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">Batal</a>
+</form>
+{% endblock %}

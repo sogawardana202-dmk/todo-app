@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Daftar Tugas</h2>
+    <a href="{{ url_for('add') }}" class="btn btn-success">Tambah Tugas</a>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Judul</th>
+            <th>Kategori</th>
+            <th>Batas Waktu</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>
+                {% if task.category == 'umum' %}
+                    <span class="badge bg-info">Umum</span>
+                {% else %}
+                    <span class="badge bg-secondary">Pribadi</span>
+                {% endif %}
+            </td>
+            <td>{{ task.due_date.strftime('%d %b %Y') }}</td>
+            <td>
+                <a href="{{ url_for('edit', id=task.id) }}" class="btn btn-sm btn-primary">Edit</a>
+                <a href="{{ url_for('delete', id=task.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin hapus?')">Hapus</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4" class="text-center">Belum ada tugas</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
